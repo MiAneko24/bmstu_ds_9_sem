@@ -31,7 +31,7 @@ class PersonApiHandler(
 ) {
     private val log: Logger = LoggerFactory.getLogger(this::class.java)
 
-    @GetMapping
+    @GetMapping("/{personId}")
     fun getPerson(
         @PathVariable personId: Int
     ): PersonResponse {
