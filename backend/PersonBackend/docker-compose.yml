@@ -1,0 +1,27 @@
+version: "3.2"
+
+services:
+  backend:
+    build:
+      context: .
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=program
+      - POSTGRES_PASSWORD=test
+      - POSTGRES_HOST=db
+      - POSTGRES_PORT=5432
+      - POSTGRES_DB=postgres
+      - APPLICATION_NAME=Person backend
+    links:
+      - db
+    ports:
+      - "8070:8080"
+  db:
+    image: postgres
+    environment:
+      - POSTGRES_USER=program
+      - POSTGRES_PASSWORD=test
+    ports:
+      - "5725:5432"
+    volumes:
+      - ./sql/init.sql:/docker-entrypoint-initdb.d/init.sql
