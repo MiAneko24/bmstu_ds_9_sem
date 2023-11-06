@@ -60,7 +60,7 @@ class PersonApiHandler(
         httpResponse.addHeader("Location", httpRequest.requestURI + response)
     }
 
-    @PatchMapping
+    @PatchMapping("/{personId}")
     fun updatePerson(
         @PathVariable personId: Int,
         @RequestBody personRequest: PersonRequest
@@ -75,7 +75,7 @@ class PersonApiHandler(
         }
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{personId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun deletePerson(
         @PathVariable personId: Int

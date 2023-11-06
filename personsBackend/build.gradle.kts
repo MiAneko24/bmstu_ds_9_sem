@@ -69,3 +69,7 @@ tasks.withType<BootJar> {
 //    targetJavaVersion.set(JavaVersion.VERSION_17)
     archiveClassifier.set("all")
 }
+
+tasks.named<Test>("test") {
+    useJUnitPlatform()
+}

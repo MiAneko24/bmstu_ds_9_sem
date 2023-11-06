@@ -52,29 +52,29 @@ class PersonTemplateVerifierImpl: PersonTemplateVerifier {
     }
 
     companion object {
-        private const val NAME_FIELD = "name"
+        const val NAME_FIELD = "name"
         private const val MIN_NAME_LEN = 2
         private const val MAX_NAME_LEN = 20
-        private const val NAME_LENGTH_ERROR = "Person name should have more than $MIN_NAME_LEN " +
+        const val NAME_LENGTH_ERROR = "Person name should have more than $MIN_NAME_LEN " +
             "and not more than $MAX_NAME_LEN symbols"
         private val NAME_ALLOWED_SYMBOLS = listOf('-', ' ')
-        private val NAME_ALLOWED_SYMBOLS_ERROR = "Name can consist of letters or symbols ${NAME_ALLOWED_SYMBOLS.toString()}"
+        val NAME_ALLOWED_SYMBOLS_ERROR = "Name can consist of letters or symbols $NAME_ALLOWED_SYMBOLS"
 
-        private const val AGE_FIELD = "age"
+        const val AGE_FIELD = "age"
         private const val MAX_AGE = 120
         private const val MIN_AGE = 0
-        private val AGE_ERROR = "Age should be a number between $MIN_AGE and $MAX_AGE"
+        const val AGE_ERROR = "Age should be a number between $MIN_AGE and $MAX_AGE"
 
-        private const val ADDRESS_FIELD = "address"
-        private val ADDRESS_REGEXP = """^г\. [\w\-\s]+, ул\. [\w\-\s\d]+, д\. \d+(, к\. \d+\w?)(, кв\. \d+)?$""".toRegex()
-        private const val ADDRESS_ERROR = """Address should be in format "г. <City>, 
+        const val ADDRESS_FIELD = "address"
+        private val ADDRESS_REGEXP = """^г\. [[а-яёА-ЯЁ]\w\-\s]+, ул\. [[а-яёА-ЯЁ]\w\-\s\d]+, д\. \d+(, к\. \d+[\w[а-яёА-ЯЁ]]?)?(, кв\. \d+)?$""".toRegex()
+        const val ADDRESS_ERROR = """Address should be in format "г. <City>, 
             |ул. <Street>, д. <House number>(, к. <Building number>)(, к. <Flat number>).
             |Round brackets mean part is optional"""
 
-        private const val WORK_FIELD = "work"
+        const val WORK_FIELD = "work"
         private const val WORK_MIN_LENGTH = 2
         private const val WORK_MAX_LENGTH = 100
-        private const val WORK_LENGTH_ERROR = "Person work should have more than $MIN_NAME_LEN " +
+        const val WORK_LENGTH_ERROR = "Person work should have more than $MIN_NAME_LEN " +
             "and not more than $MAX_NAME_LEN symbols"
     }
 }
