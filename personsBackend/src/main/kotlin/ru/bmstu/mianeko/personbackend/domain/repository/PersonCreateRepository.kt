@@ -5,5 +5,5 @@ import ru.bmstu.mianeko.personbackend.domain.models.Person
 interface PersonCreateRepository {
     fun generateId(): Int
 
-    fun savePerson(person: Person): Person
+    fun savePerson(person: Person)
 }

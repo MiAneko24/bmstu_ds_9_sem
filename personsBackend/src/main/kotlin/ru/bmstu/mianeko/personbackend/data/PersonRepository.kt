@@ -1,9 +1,15 @@
 package ru.bmstu.mianeko.personbackend.data
 
-import io.ebean.Database
+import org.ktorm.database.Database
+import org.ktorm.dsl.eq
+import org.ktorm.entity.add
+import org.ktorm.entity.any
+import org.ktorm.entity.find
+import org.ktorm.entity.toList
 import org.springframework.stereotype.Repository
-import ru.bmstu.mianeko.personbackend.data.mappers.PersonDbToDomainMapper
-import ru.bmstu.mianeko.personbackend.data.models.PersonDb
+import ru.bmstu.mianeko.personbackend.data.mappers.PersonEntityToDomainMapper
+import ru.bmstu.mianeko.personbackend.data.models.PersonEntity
+import ru.bmstu.mianeko.personbackend.data.models.persons
 import ru.bmstu.mianeko.personbackend.domain.exceptions.PersonNotExistException
 import ru.bmstu.mianeko.personbackend.domain.models.Person
 import ru.bmstu.mianeko.personbackend.domain.repository.*
@@ -18,7 +24,7 @@ interface PersonRepository:
 @Repository
 class PersonRepositoryImpl(
     val db: Database,
-    val personDbToDomainMapper: PersonDbToDomainMapper,
+    val personEntityToDomainMapper: PersonEntityToDomainMapper,
 ): PersonRepository {
     override fun generateId(): Int {
         var newId: Int
@@ -36,25 +42,45 @@ class PersonRepositoryImpl(
     }
 
     override fun idExists(id: Int): Boolean {
-        return db.find(PersonDb::class.java, id) != null
+        return db.persons.any { it.id eq id }
     }
 
     override fun getPerson(id: Int): Person {
-        val personDb = db.find(PersonDb::class.java, id) ?: throw PersonNotExistException(id)
-        return personDbToDomainMapper(personDb)
+        val personDb = db.persons.find { it.id eq id } ?: throw PersonNotExistException(id)
+        return personEntityToDomainMapper(personDb)
     }
 
     override fun getPersonList(): List<Person> {
-        return db.find(PersonDb::class.java).findList().map(personDbToDomainMapper)
+        return db.persons.toList().map(personEntityToDomainMapper)
     }
 
-    override fun savePerson(person: Person): Person {
-        db.save(person)
+    override fun savePerson(person: Person) {
+        val personEntity = PersonEntity {
+            id = person.id
+            name = person.name
+            age = person.age
+            address = person.address
+            work = person.work
+        }
+        db.persons.add(personEntity)
+    }
+
+    override fun updatePerson(person: Person): Person {
+        val personEntity = db.persons.find { it.id eq person.id } ?: throw PersonNotExistException(person.id)
+        personEntity.apply {
+            name = person.name
+            age = person.age
+            address = person.address
+            work = person.work
+            flushChanges()
+        }
         return getPerson(person.id)
     }
 
     override fun deletePerson(id: Int) {
-        db.delete(PersonDb::class.java, id)
+        db.persons
+            .find { it.id eq id }
+            ?.delete()
     }
 
     companion object {

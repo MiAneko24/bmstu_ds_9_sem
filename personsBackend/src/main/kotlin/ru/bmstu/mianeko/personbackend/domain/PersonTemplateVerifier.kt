@@ -67,9 +67,9 @@ class PersonTemplateVerifierImpl: PersonTemplateVerifier {
 
         const val ADDRESS_FIELD = "address"
         private val ADDRESS_REGEXP = """^г\. [[а-яёА-ЯЁ]\w\-\s]+, ул\. [[а-яёА-ЯЁ]\w\-\s\d]+, д\. \d+(, к\. \d+[\w[а-яёА-ЯЁ]]?)?(, кв\. \d+)?$""".toRegex()
-        const val ADDRESS_ERROR = """Address should be in format "г. <City>, 
-            |ул. <Street>, д. <House number>(, к. <Building number>)(, к. <Flat number>).
-            |Round brackets mean part is optional"""
+        const val ADDRESS_ERROR = "Address should be in format \"г. <City>, " +
+            "ул. <Street>, д. <House number>(, к. <Building number>)(, к. <Flat number>)." +
+            "Round brackets mean part is optional."
 
         const val WORK_FIELD = "work"
         private const val WORK_MIN_LENGTH = 2

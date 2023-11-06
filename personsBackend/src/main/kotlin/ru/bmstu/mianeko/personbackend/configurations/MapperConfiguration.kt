@@ -2,10 +2,11 @@ package ru.bmstu.mianeko.personbackend.configurations
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import ru.bmstu.mianeko.personbackend.api.mappers.PersonErrorToPersonErrorResponseMapper
 import ru.bmstu.mianeko.personbackend.api.mappers.PersonRequestToPersonMapper
 import ru.bmstu.mianeko.personbackend.api.mappers.PersonRequestToPersonTemplateMapper
 import ru.bmstu.mianeko.personbackend.api.mappers.PersonToPersonResponseMapper
-import ru.bmstu.mianeko.personbackend.data.mappers.PersonDbToDomainMapper
+import ru.bmstu.mianeko.personbackend.data.mappers.PersonEntityToDomainMapper
 
 @Configuration
 class MapperConfiguration {
@@ -20,12 +21,17 @@ class MapperConfiguration {
     }
 
     @Bean
+    fun providePersonErrorToPersonErrorResponseMapper(): PersonErrorToPersonErrorResponseMapper {
+        return PersonErrorToPersonErrorResponseMapper()
+    }
+
+    @Bean
     fun providePersonRequestToPersonMapper(): PersonRequestToPersonMapper {
         return PersonRequestToPersonMapper()
     }
 
     @Bean
-    fun providePersonDbToDomainMapper(): PersonDbToDomainMapper {
-        return PersonDbToDomainMapper()
+    fun providePersonDbToDomainMapper(): PersonEntityToDomainMapper {
+        return PersonEntityToDomainMapper()
     }
 }

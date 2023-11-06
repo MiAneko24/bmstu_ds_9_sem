@@ -26,7 +26,7 @@ class PersonCreateUseCaseImpl(
                 work = work
             )
         }
-        val savedPerson = personCreateRepository.savePerson(person)
-        return savedPerson.id
+        personCreateRepository.savePerson(person)
+        return person.id
     }
 }

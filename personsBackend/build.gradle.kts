@@ -1,13 +1,11 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-import org.jetbrains.kotlin.gradle.dsl.KotlinCompile
-import org.jetbrains.kotlin.platform.jvm.JvmPlatforms
 import org.springframework.boot.gradle.tasks.bundling.BootJar
 
 //val springVersion: String by project
-val ebeanVersion: String by project
 val log4jVersion: String by project
 val junitVersion: String by project
 val postgresVersion: String by project
+val ktormVersion: String by project
 
 plugins {
     application
@@ -18,8 +16,6 @@ plugins {
     id("org.springframework.boot") version "3.1.4"
     id("io.spring.dependency-management") version "1.1.3"
     id("org.jetbrains.kotlin.plugin.spring") version "1.9.20"
-    id("io.ebean") version "13.23.2"
-
 }
 
 group = "ru.bmstu.mianeko.personsbackend"
@@ -43,12 +39,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.mockito:mockito-core")
-
-    implementation("io.ebean:ebean:$ebeanVersion")
-    implementation("io.ebean:ebean-querybean:$ebeanVersion")
-    implementation("io.ebean:querybean-generator:$ebeanVersion")
-    implementation("io.ebean:ebean-spring-txn:$ebeanVersion")
-
+    implementation("org.ktorm:ktorm-core:$ktormVersion")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.1.0")
     implementation("org.springframework.boot:spring-boot-starter-web")

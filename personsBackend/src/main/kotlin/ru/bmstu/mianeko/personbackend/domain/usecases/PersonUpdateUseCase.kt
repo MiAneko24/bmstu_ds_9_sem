@@ -18,6 +18,6 @@ class PersonUpdateUseCaseImpl(
             throw PersonNotExistException(person.id)
         }
         personTemplateVerifier.verify(person)
-        return personUpdateRepository.savePerson(person)
+        return personUpdateRepository.updatePerson(person)
     }
 }

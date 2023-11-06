@@ -24,3 +24,12 @@ alter default privileges in schema persons grant select on tables to master;
 
 create user backend in role master password 'backend';
 
+create table if not exists persons.persons(
+    id bigserial not null,
+    name text not null,
+    age int,
+    address text,
+    work text,
+    constraint persons$pk primary key (id)
+);
+

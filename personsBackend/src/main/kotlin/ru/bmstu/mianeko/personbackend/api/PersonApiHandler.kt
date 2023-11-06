@@ -37,6 +37,7 @@ class PersonApiHandler(
     ): PersonResponse {
         try {
             val person = personRetrieveUseCase.getPerson(personId)
+            log.debug("Got person {}", person)
             return personToResponseMapper(person)
         } catch (e: PersonNotExistException) {
             throw PersonNotFoundException(e.message)
@@ -46,6 +47,7 @@ class PersonApiHandler(
     @GetMapping
     fun getPersonList(): List<PersonResponse> {
         val personList = personRetrieveUseCase.getPersonList()
+        log.debug("Request for all persons was successful")
         return personList.map { personToResponseMapper(it) }
     }
 
@@ -57,7 +59,8 @@ class PersonApiHandler(
         httpResponse: HttpServletResponse
     ) {
         val response = personCreateUseCase.create(personRequestToPersonTemplateMapper(personRequest))
-        httpResponse.addHeader("Location", httpRequest.requestURI + response)
+        log.debug("Successfully created a new person with id $response")
+        httpResponse.addHeader("Location", httpRequest.requestURI + "/" + response)
     }
 
     @PatchMapping("/{personId}")
@@ -68,7 +71,7 @@ class PersonApiHandler(
         try {
             val personRequestWithId = personRequestToPersonMapper(personRequest, personId)
             val updatedPerson = personUpdateUseCase.update(personRequestWithId)
-
+            log.debug("Updated person to {}", updatedPerson)
             return personToResponseMapper(updatedPerson)
         } catch (e: PersonNotExistException) {
             throw PersonNotFoundException(e.message)
@@ -81,5 +84,6 @@ class PersonApiHandler(
         @PathVariable personId: Int
     ) {
         personDeleteUseCase.delete(personId)
+        log.debug("Deleted person with id {}", personId)
     }
 }
