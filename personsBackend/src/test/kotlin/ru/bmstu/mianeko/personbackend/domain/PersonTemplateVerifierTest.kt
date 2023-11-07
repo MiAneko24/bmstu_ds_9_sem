@@ -339,7 +339,7 @@ class PersonTemplateVerifierTest {
             name = "Алена23421",
             age = 12314,
             work = "a",
-            address = "г. Йошкар-Ола, ул. 5-го&&& Февраля, д. 152"
+            address = "гfg"
         )
 
         val expectedException = PersonArgumentsException(
