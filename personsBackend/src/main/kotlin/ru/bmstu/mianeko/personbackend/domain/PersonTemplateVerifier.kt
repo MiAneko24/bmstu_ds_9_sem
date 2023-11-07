@@ -44,7 +44,7 @@ class PersonTemplateVerifierImpl: PersonTemplateVerifier {
     }
 
     private fun getAddressError(address: String?): String? {
-        return if (address != null && !(ADDRESS_REGEXP matches address)) ADDRESS_ERROR else null
+        return if (address != null && (address.length < ADDRESS_MIN_LENGTH || address.length > ADDRESS_MAX_LENGTH)) ADDRESS_LENGTH_ERROR else null
     }
 
     private fun getWorkError(work: String?): String? {
@@ -66,10 +66,15 @@ class PersonTemplateVerifierImpl: PersonTemplateVerifier {
         const val AGE_ERROR = "Age should be a number between $MIN_AGE and $MAX_AGE"
 
         const val ADDRESS_FIELD = "address"
-        private val ADDRESS_REGEXP = """^г\. [[а-яёА-ЯЁ]\w\-\s]+, ул\. [[а-яёА-ЯЁ]\w\-\s\d]+, д\. \d+(, к\. \d+[\w[а-яёА-ЯЁ]]?)?(, кв\. \d+)?$""".toRegex()
-        const val ADDRESS_ERROR = "Address should be in format \"г. <City>, " +
-            "ул. <Street>, д. <House number>(, к. <Building number>)(, к. <Flat number>)." +
-            "Round brackets mean part is optional."
+//        private val ADDRESS_REGEXP = """^г\. [[а-яёА-ЯЁ]\w\-\s]+, ул\. [[а-яёА-ЯЁ]\w\-\s\d]+, д\. \d+(, к\. \d+[\w[а-яёА-ЯЁ]]?)?(, кв\. \d+)?$""".toRegex()
+//        const val ADDRESS_ERROR = "Address should be in format \"г. <City>, " +
+//            "ул. <Street>, д. <House number>(, к. <Building number>)(, к. <Flat number>)." +
+//            "Round brackets mean part is optional."
+        private const val ADDRESS_MIN_LENGTH = 5
+        private const val ADDRESS_MAX_LENGTH = 150
+        const val ADDRESS_LENGTH_ERROR = "Person address should have more than $ADDRESS_MIN_LENGTH " +
+            "and not more than $ADDRESS_MAX_LENGTH symbols"
+
 
         const val WORK_FIELD = "work"
         private const val WORK_MIN_LENGTH = 2

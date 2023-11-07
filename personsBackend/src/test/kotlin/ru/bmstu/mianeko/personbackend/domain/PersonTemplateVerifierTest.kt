@@ -126,37 +126,13 @@ class PersonTemplateVerifierTest {
     }
 
     @Test
-    fun verifyCorrectTemplateWithNameAndShortAddressWithBuildingNumber() {
+    fun verifyTemplateWithInvalidAddressLength() {
         val personTemplate = PersonTemplate(
             name = "Алена",
-            address = "г. Йошкар-Ола, ул. 5-го Февраля, д. 152, к. 12А"
-        )
-
-        assertDoesNotThrow {
-            personTemplateVerifier.verify(personTemplate)
-        }
-    }
-
-    @Test
-    fun verifyCorrectTemplateWithNameAndFullAddress() {
-        val personTemplate = PersonTemplate(
-            name = "Алена",
-            address = "г. Йошкар-Ола, ул. 5-го Февраля, д. 152, к. 12А, кв. 44"
-        )
-
-        assertDoesNotThrow {
-            personTemplateVerifier.verify(personTemplate)
-        }
-    }
-
-    @Test
-    fun verifyTemplateWithInvalidAddressCitySymbols() {
-        val personTemplate = PersonTemplate(
-            name = "Алена",
-            address = "г. Йошкар-Ола??, ул. 5-го Февраля, д. 152, к. 12А, кв. 44"
+            address = "ffd"
         )
         val expectedException = PersonArgumentsException(
-            errors = mapOf(PersonTemplateVerifierImpl.ADDRESS_FIELD to PersonTemplateVerifierImpl.ADDRESS_ERROR)
+            errors = mapOf(PersonTemplateVerifierImpl.ADDRESS_FIELD to PersonTemplateVerifierImpl.ADDRESS_LENGTH_ERROR)
         )
 
         val exception = assertThrows<PersonArgumentsException> {
@@ -166,141 +142,182 @@ class PersonTemplateVerifierTest {
         assertEquals(expectedException.personError, exception.personError)
     }
 
-    @Test
-    fun verifyTemplateWithInvalidAddressNoCity() {
-        val personTemplate = PersonTemplate(
-            name = "Алена",
-            address = "ул. 5-го Февраля, д. 152, к. 12А, кв. 44"
-        )
-        val expectedException = PersonArgumentsException(
-            errors = mapOf(PersonTemplateVerifierImpl.ADDRESS_FIELD to PersonTemplateVerifierImpl.ADDRESS_ERROR)
-        )
-
-        val exception = assertThrows<PersonArgumentsException> {
-            personTemplateVerifier.verify(personTemplate)
-        }
-
-        assertEquals(expectedException.personError, exception.personError)
-    }
-
-    @Test
-    fun verifyTemplateWithInvalidAddressStreetSymbols() {
-        val personTemplate = PersonTemplate(
-            name = "Алена",
-            address = "г. Йошкар-Ола, ул. 5-го Февра/ля, д. 152, к. 12А, кв. 44"
-        )
-        val expectedException = PersonArgumentsException(
-            errors = mapOf(PersonTemplateVerifierImpl.ADDRESS_FIELD to PersonTemplateVerifierImpl.ADDRESS_ERROR)
-        )
-
-        val exception = assertThrows<PersonArgumentsException> {
-            personTemplateVerifier.verify(personTemplate)
-        }
-
-        assertEquals(expectedException.personError, exception.personError)
-    }
-
-    @Test
-    fun verifyTemplateWithInvalidAddressNoStreet() {
-        val personTemplate = PersonTemplate(
-            name = "Алена",
-            address = "г. Йошкар-Ола, д. 152, к. 12А, кв. 44"
-        )
-        val expectedException = PersonArgumentsException(
-            errors = mapOf(PersonTemplateVerifierImpl.ADDRESS_FIELD to PersonTemplateVerifierImpl.ADDRESS_ERROR)
-        )
-
-        val exception = assertThrows<PersonArgumentsException> {
-            personTemplateVerifier.verify(personTemplate)
-        }
-
-        assertEquals(expectedException.personError, exception.personError)
-    }
-
-    @Test
-    fun verifyTemplateWithInvalidAddressHouseSymbols() {
-        val personTemplate = PersonTemplate(
-            name = "Алена",
-            address = "г. Йошкар-Ола, ул. 5-го Февраля, д. fgh, к. 12А, кв. 44"
-        )
-        val expectedException = PersonArgumentsException(
-            errors = mapOf(PersonTemplateVerifierImpl.ADDRESS_FIELD to PersonTemplateVerifierImpl.ADDRESS_ERROR)
-        )
-
-        val exception = assertThrows<PersonArgumentsException> {
-            personTemplateVerifier.verify(personTemplate)
-        }
-
-        assertEquals(expectedException.personError, exception.personError)
-    }
-
-    @Test
-    fun verifyTemplateWithInvalidAddressNoHouse() {
-        val personTemplate = PersonTemplate(
-            name = "Алена",
-            address = "г. Йошкар-Ола, ул. 5-го Февраля, к. 12А, кв. 44"
-        )
-        val expectedException = PersonArgumentsException(
-            errors = mapOf(PersonTemplateVerifierImpl.ADDRESS_FIELD to PersonTemplateVerifierImpl.ADDRESS_ERROR)
-        )
-
-        val exception = assertThrows<PersonArgumentsException> {
-            personTemplateVerifier.verify(personTemplate)
-        }
-
-        assertEquals(expectedException.personError, exception.personError)
-    }
-
-    @Test
-    fun verifyTemplateWithInvalidAddressBuildingSymbols() {
-        val personTemplate = PersonTemplate(
-            name = "Алена",
-            address = "г. Йошкар-Ола, ул. 5-го Февраля, д. fgh, к. 12-А, кв. 44"
-        )
-        val expectedException = PersonArgumentsException(
-            errors = mapOf(PersonTemplateVerifierImpl.ADDRESS_FIELD to PersonTemplateVerifierImpl.ADDRESS_ERROR)
-        )
-
-        val exception = assertThrows<PersonArgumentsException> {
-            personTemplateVerifier.verify(personTemplate)
-        }
-
-        assertEquals(expectedException.personError, exception.personError)
-    }
-
-    @Test
-    fun verifyTemplateWithInvalidAddressFlatSymbols() {
-        val personTemplate = PersonTemplate(
-            name = "Алена",
-            address = "г. Йошкар-Ола, ул. 5-го Февраля, д. fgh, к. 12-А, кв. seur"
-        )
-        val expectedException = PersonArgumentsException(
-            errors = mapOf(PersonTemplateVerifierImpl.ADDRESS_FIELD to PersonTemplateVerifierImpl.ADDRESS_ERROR)
-        )
-
-        val exception = assertThrows<PersonArgumentsException> {
-            personTemplateVerifier.verify(personTemplate)
-        }
-
-        assertEquals(expectedException.personError, exception.personError)
-    }
-
-    @Test
-    fun verifyTemplateWithInvalidAddressRandomString() {
-        val personTemplate = PersonTemplate(
-            name = "Алена",
-            address = "skjdfg7isyibskdf"
-        )
-        val expectedException = PersonArgumentsException(
-            errors = mapOf(PersonTemplateVerifierImpl.ADDRESS_FIELD to PersonTemplateVerifierImpl.ADDRESS_ERROR)
-        )
-
-        val exception = assertThrows<PersonArgumentsException> {
-            personTemplateVerifier.verify(personTemplate)
-        }
-
-        assertEquals(expectedException.personError, exception.personError)
-    }
+//    @Test
+//    fun verifyCorrectTemplateWithNameAndShortAddressWithBuildingNumber() {
+//        val personTemplate = PersonTemplate(
+//            name = "Алена",
+//            address = "г. Йошкар-Ола, ул. 5-го Февраля, д. 152, к. 12А"
+//        )
+//
+//        assertDoesNotThrow {
+//            personTemplateVerifier.verify(personTemplate)
+//        }
+//    }
+//
+//    @Test
+//    fun verifyCorrectTemplateWithNameAndFullAddress() {
+//        val personTemplate = PersonTemplate(
+//            name = "Алена",
+//            address = "г. Йошкар-Ола, ул. 5-го Февраля, д. 152, к. 12А, кв. 44"
+//        )
+//
+//        assertDoesNotThrow {
+//            personTemplateVerifier.verify(personTemplate)
+//        }
+//    }
+//
+//    @Test
+//    fun verifyTemplateWithInvalidAddressCitySymbols() {
+//        val personTemplate = PersonTemplate(
+//            name = "Алена",
+//            address = "г. Йошкар-Ола??, ул. 5-го Февраля, д. 152, к. 12А, кв. 44"
+//        )
+//        val expectedException = PersonArgumentsException(
+//            errors = mapOf(PersonTemplateVerifierImpl.ADDRESS_FIELD to PersonTemplateVerifierImpl.ADDRESS_ERROR)
+//        )
+//
+//        val exception = assertThrows<PersonArgumentsException> {
+//            personTemplateVerifier.verify(personTemplate)
+//        }
+//
+//        assertEquals(expectedException.personError, exception.personError)
+//    }
+//
+//    @Test
+//    fun verifyTemplateWithInvalidAddressNoCity() {
+//        val personTemplate = PersonTemplate(
+//            name = "Алена",
+//            address = "ул. 5-го Февраля, д. 152, к. 12А, кв. 44"
+//        )
+//        val expectedException = PersonArgumentsException(
+//            errors = mapOf(PersonTemplateVerifierImpl.ADDRESS_FIELD to PersonTemplateVerifierImpl.ADDRESS_ERROR)
+//        )
+//
+//        val exception = assertThrows<PersonArgumentsException> {
+//            personTemplateVerifier.verify(personTemplate)
+//        }
+//
+//        assertEquals(expectedException.personError, exception.personError)
+//    }
+//
+//    @Test
+//    fun verifyTemplateWithInvalidAddressStreetSymbols() {
+//        val personTemplate = PersonTemplate(
+//            name = "Алена",
+//            address = "г. Йошкар-Ола, ул. 5-го Февра/ля, д. 152, к. 12А, кв. 44"
+//        )
+//        val expectedException = PersonArgumentsException(
+//            errors = mapOf(PersonTemplateVerifierImpl.ADDRESS_FIELD to PersonTemplateVerifierImpl.ADDRESS_ERROR)
+//        )
+//
+//        val exception = assertThrows<PersonArgumentsException> {
+//            personTemplateVerifier.verify(personTemplate)
+//        }
+//
+//        assertEquals(expectedException.personError, exception.personError)
+//    }
+//
+//    @Test
+//    fun verifyTemplateWithInvalidAddressNoStreet() {
+//        val personTemplate = PersonTemplate(
+//            name = "Алена",
+//            address = "г. Йошкар-Ола, д. 152, к. 12А, кв. 44"
+//        )
+//        val expectedException = PersonArgumentsException(
+//            errors = mapOf(PersonTemplateVerifierImpl.ADDRESS_FIELD to PersonTemplateVerifierImpl.ADDRESS_ERROR)
+//        )
+//
+//        val exception = assertThrows<PersonArgumentsException> {
+//            personTemplateVerifier.verify(personTemplate)
+//        }
+//
+//        assertEquals(expectedException.personError, exception.personError)
+//    }
+//
+//    @Test
+//    fun verifyTemplateWithInvalidAddressHouseSymbols() {
+//        val personTemplate = PersonTemplate(
+//            name = "Алена",
+//            address = "г. Йошкар-Ола, ул. 5-го Февраля, д. fgh, к. 12А, кв. 44"
+//        )
+//        val expectedException = PersonArgumentsException(
+//            errors = mapOf(PersonTemplateVerifierImpl.ADDRESS_FIELD to PersonTemplateVerifierImpl.ADDRESS_ERROR)
+//        )
+//
+//        val exception = assertThrows<PersonArgumentsException> {
+//            personTemplateVerifier.verify(personTemplate)
+//        }
+//
+//        assertEquals(expectedException.personError, exception.personError)
+//    }
+//
+//    @Test
+//    fun verifyTemplateWithInvalidAddressNoHouse() {
+//        val personTemplate = PersonTemplate(
+//            name = "Алена",
+//            address = "г. Йошкар-Ола, ул. 5-го Февраля, к. 12А, кв. 44"
+//        )
+//        val expectedException = PersonArgumentsException(
+//            errors = mapOf(PersonTemplateVerifierImpl.ADDRESS_FIELD to PersonTemplateVerifierImpl.ADDRESS_ERROR)
+//        )
+//
+//        val exception = assertThrows<PersonArgumentsException> {
+//            personTemplateVerifier.verify(personTemplate)
+//        }
+//
+//        assertEquals(expectedException.personError, exception.personError)
+//    }
+//
+//    @Test
+//    fun verifyTemplateWithInvalidAddressBuildingSymbols() {
+//        val personTemplate = PersonTemplate(
+//            name = "Алена",
+//            address = "г. Йошкар-Ола, ул. 5-го Февраля, д. fgh, к. 12-А, кв. 44"
+//        )
+//        val expectedException = PersonArgumentsException(
+//            errors = mapOf(PersonTemplateVerifierImpl.ADDRESS_FIELD to PersonTemplateVerifierImpl.ADDRESS_ERROR)
+//        )
+//
+//        val exception = assertThrows<PersonArgumentsException> {
+//            personTemplateVerifier.verify(personTemplate)
+//        }
+//
+//        assertEquals(expectedException.personError, exception.personError)
+//    }
+//
+//    @Test
+//    fun verifyTemplateWithInvalidAddressFlatSymbols() {
+//        val personTemplate = PersonTemplate(
+//            name = "Алена",
+//            address = "г. Йошкар-Ола, ул. 5-го Февраля, д. fgh, к. 12-А, кв. seur"
+//        )
+//        val expectedException = PersonArgumentsException(
+//            errors = mapOf(PersonTemplateVerifierImpl.ADDRESS_FIELD to PersonTemplateVerifierImpl.ADDRESS_ERROR)
+//        )
+//
+//        val exception = assertThrows<PersonArgumentsException> {
+//            personTemplateVerifier.verify(personTemplate)
+//        }
+//
+//        assertEquals(expectedException.personError, exception.personError)
+//    }
+//
+//    @Test
+//    fun verifyTemplateWithInvalidAddressRandomString() {
+//        val personTemplate = PersonTemplate(
+//            name = "Алена",
+//            address = "skjdfg7isyibskdf"
+//        )
+//        val expectedException = PersonArgumentsException(
+//            errors = mapOf(PersonTemplateVerifierImpl.ADDRESS_FIELD to PersonTemplateVerifierImpl.ADDRESS_ERROR)
+//        )
+//
+//        val exception = assertThrows<PersonArgumentsException> {
+//            personTemplateVerifier.verify(personTemplate)
+//        }
+//
+//        assertEquals(expectedException.personError, exception.personError)
+//    }
 
     @Test
     fun verifyFullCorrectTemplate() {
@@ -329,7 +346,7 @@ class PersonTemplateVerifierTest {
             errors = mapOf(
                 PersonTemplateVerifierImpl.NAME_FIELD to PersonTemplateVerifierImpl.NAME_ALLOWED_SYMBOLS_ERROR,
                 PersonTemplateVerifierImpl.AGE_FIELD to PersonTemplateVerifierImpl.AGE_ERROR,
-                PersonTemplateVerifierImpl.ADDRESS_FIELD to PersonTemplateVerifierImpl.ADDRESS_ERROR,
+                PersonTemplateVerifierImpl.ADDRESS_FIELD to PersonTemplateVerifierImpl.ADDRESS_LENGTH_ERROR,
                 PersonTemplateVerifierImpl.WORK_FIELD to PersonTemplateVerifierImpl.WORK_LENGTH_ERROR,
             )
         )
