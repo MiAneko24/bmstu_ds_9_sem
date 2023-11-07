@@ -18,10 +18,10 @@ jobs:
           fetch-depth: 0
 
       - name: Creates docker images
-        run: docker compose build
+        run: docker-compose build
 
       - name: Deploys project
-        run: docker compose up --build -d
+        run: docker-compose up --build -d
 
       - name: Run unit tests
         run: docker build . -t tests-persons -f ./backend/Dockerfile-Tests && docker run tests-persons
