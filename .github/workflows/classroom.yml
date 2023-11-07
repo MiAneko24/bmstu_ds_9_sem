@@ -24,7 +24,7 @@ jobs:
         run: docker compose up --build -d
 
       - name: Run unit tests
-        run: docker build . -t tests-persons -f ./personsBackend/Dockerfile-Test && docker run tests-persons
+        run: cd ./personsBackend && gradle test
 
       - name: Run API Tests
         uses: matt-ball/newman-action@master
