@@ -22,9 +22,9 @@ jobs:
 
       - name: Deploys project
         run: docker compose up --build -d
-#
-#      - name: Run unit tests
-#        run: docker build . -t tests-persons --target test && docker run tests-persons
+
+      - name: Run unit tests
+        run: cd personsBackend && docker build . -t tests-persons -f Dockerfile-Test && docker run tests-persons && cd ..
 
       - name: Run API Tests
         uses: matt-ball/newman-action@master

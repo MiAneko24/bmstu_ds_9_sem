@@ -5,6 +5,7 @@ WORKDIR /home/gradle/application
 COPY build.gradle.kts ./
 COPY settings.gradle.kts ./
 COPY gradle.properties ./
-COPY src ./src
+ADD src /home/gradle/application/src
 
-RUN gradle test
+#CMD tail -f /dev/null
+CMD gradle test
