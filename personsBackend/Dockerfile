@@ -1,4 +1,4 @@
-FROM gradle:7.6.0-jdk17-jammy
+FROM gradle:7.6.0-jdk17-jammy as base
 
 WORKDIR /home/gradle/application
 
@@ -6,6 +6,11 @@ COPY build.gradle.kts ./
 COPY settings.gradle.kts ./
 COPY gradle.properties ./
 COPY src ./src
+
+FROM base as test
+RUN gradle test
+
+FROM base as build
 
 RUN gradle bootJar
 #CMD tail -f /dev/null
