@@ -2,9 +2,11 @@ name: GitHub Classroom Workflow
 on:
   push:
     branches:
+      - lab_01
       - master
   pull_request:
     branches:
+      - lab_01
       - master
 jobs:
   build:
