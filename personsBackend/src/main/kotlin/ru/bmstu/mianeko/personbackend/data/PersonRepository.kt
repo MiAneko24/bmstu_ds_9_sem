@@ -69,9 +69,9 @@ class PersonRepositoryImpl(
         val personEntity = db.persons.find { it.id eq person.id } ?: throw PersonNotExistException(person.id)
         personEntity.apply {
             name = person.name
-            age = person.age
-            address = person.address
-            work = person.work
+            age = person.age ?: age
+            address = person.address ?: address
+            work = person.work ?: work
             flushChanges()
         }
         return getPerson(person.id)
