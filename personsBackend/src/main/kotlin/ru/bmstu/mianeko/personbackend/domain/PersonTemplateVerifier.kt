@@ -30,14 +30,14 @@ class PersonTemplateVerifierImpl: PersonTemplateVerifier {
     private fun getNameError(name: String): String? {
         return when {
             (name.length < MIN_NAME_LEN || name.length > MAX_NAME_LEN) -> NAME_LENGTH_ERROR
-            !nameSymbolsCorrect(name) -> NAME_ALLOWED_SYMBOLS_ERROR
+//            !nameSymbolsCorrect(name) -> NAME_ALLOWED_SYMBOLS_ERROR
             else -> null
         }
     }
 
-    private fun nameSymbolsCorrect(name: String): Boolean {
-        return name.all { it.isLetter() || it in NAME_ALLOWED_SYMBOLS }
-    }
+//    private fun nameSymbolsCorrect(name: String): Boolean {
+//        return name.all { it.isLetter() || it in NAME_ALLOWED_SYMBOLS }
+//    }
 
     private fun getAgeError(age: Int?): String? {
         return if (age != null && (age < MIN_AGE || age > MAX_AGE)) AGE_ERROR else null
@@ -57,8 +57,8 @@ class PersonTemplateVerifierImpl: PersonTemplateVerifier {
         private const val MAX_NAME_LEN = 20
         const val NAME_LENGTH_ERROR = "Person name should have more than $MIN_NAME_LEN " +
             "and not more than $MAX_NAME_LEN symbols"
-        private val NAME_ALLOWED_SYMBOLS = listOf('-', ' ')
-        val NAME_ALLOWED_SYMBOLS_ERROR = "Name can consist of letters or symbols $NAME_ALLOWED_SYMBOLS"
+//        private val NAME_ALLOWED_SYMBOLS = listOf('-', ' ')
+//        val NAME_ALLOWED_SYMBOLS_ERROR = "Name can consist of letters or symbols $NAME_ALLOWED_SYMBOLS"
 
         const val AGE_FIELD = "age"
         private const val MAX_AGE = 120

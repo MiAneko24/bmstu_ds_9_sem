@@ -277,19 +277,19 @@
 	"variable": [
 		{
 			"key": "name",
-			"value": "Алена"
+			"value": ""
 		},
 		{
 			"key": "address",
-			"value": "г. Йошкар-Ола"
+			"value": ""
 		},
 		{
 			"key": "work",
-			"value": "Компания ааа"
+			"value": ""
 		},
 		{
 			"key": "age",
-			"value": "32"
+			"value": ""
 		},
 		{
 			"key": "personId",
