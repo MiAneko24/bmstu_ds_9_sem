@@ -63,4 +63,7 @@ tasks.withType<BootJar> {
 
 tasks.named<Test>("test") {
     useJUnitPlatform()
+    testLogging {
+        events("passed")
+    }
 }
