@@ -1,0 +1,11 @@
+FROM gradle:7.6.0-jdk17-jammy
+
+WORKDIR /home/gradle/application
+
+COPY build.gradle.kts ./
+COPY settings.gradle.kts ./
+COPY gradle.properties ./
+ADD src /home/gradle/application/src
+
+#CMD tail -f /dev/null
+CMD gradle test

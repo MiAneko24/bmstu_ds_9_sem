@@ -1,0 +1,50 @@
+name: GitHub Classroom Workflow
+on:
+  push:
+    branches:
+      - lab_01
+      - master
+  pull_request:
+    branches:
+      - lab_01
+      - master
+jobs:
+  build:
+    name: Autograding
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Creates docker images
+        run: docker compose build
+
+      - name: Deploys project
+        run: docker compose up --build -d
+
+      - name: Run unit tests
+        run: cd personsBackend && docker build . -t tests-persons -f Dockerfile-Test && docker run tests-persons && cd ..
+
+      - name: Run API Tests
+        uses: matt-ball/newman-action@master
+        with:
+          collection: postman/[inst] Lab1.postman_collection.json
+          environment: postman/[inst][heroku] Lab1.postman_environment.json
+          delayRequest: 100
+          reporters: '[ "cli" ]'
+
+      - name: Autograding
+        uses: education/autograding@v1
+        continue-on-error: true
+
+      - name: Github auto grader mark
+        uses: Romanow/google-sheet-autograder-marker@v1.0
+        continue-on-error: true
+        with:
+          google_token: ${{secrets.GOOGLE_API_KEY}}
+          sheet_id: "1xkgjUX6Qmk7rdJG-QPOToav-HWWtthJjnShIKnw3oIY"
+          homework_number: 1
+          user_column: 'D'
+          column_offset: 'F'
+          mark: "'+"
